@@ -1,0 +1,17 @@
+## Build outputs
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+## WorkBuddy agent state (private to the developer)
+/.workbuddy/
+
+## wxWidgets vendored copy (restore from SigFlow_FPGA sibling, see README)
+3rd/wxWidgets-*/
+
+## OS junk
+Thumbs.db
+Desktop.ini
+.DS_Store
