@@ -8,8 +8,9 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)3rd\wxWidgets-3.2.9\include;$(SolutionDir)3rd\wxWidgets-3.2.9\include\msvc;$(SolutionDir)3rd\wxWidgets-3.2.9\lib\vc_x64_dll\mswud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)3rd;$(SolutionDir)3rd\wxWidgets-3.2.9\include;$(SolutionDir)3rd\wxWidgets-3.2.9\include\msvc;$(SolutionDir)3rd\wxWidgets-3.2.9\lib\vc_x64_dll\mswud;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WXUSINGDLL;__WXMSW__;UNICODE;_UNICODE;_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)3rd\wxWidgets-3.2.9\lib\vc_x64_dll;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

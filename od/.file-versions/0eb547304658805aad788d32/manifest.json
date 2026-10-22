@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 2,
+  "fileName": "index.html",
+  "currentVersionId": "793916d5-fd11-4838-9c34-081b4489d93c",
+  "entries": [
+    {
+      "id": "793916d5-fd11-4838-9c34-081b4489d93c",
+      "fileName": "index.html",
+      "version": 1,
+      "label": "Version 1",
+      "createdAt": 1791556200850,
+      "source": "ai",
+      "prompt": "E:\\EDA_Race\\Cangku\\SiliFlow-2026\\3rd\\wxWidgets-src是源码",
+      "size": 9676,
+      "mime": "text/html; charset=utf-8",
+      "kind": "html",
+      "contentPath": "0001-793916d5-fd11-4838-9c34-081b4489d93c.html",
+      "contentDigest": "99a1502bb95e53951eec25818fbc91e4d5ec55e6bb63068b670f4ef8d52125c8",
+      "promptSource": "message"
+    }
+  ]
+}

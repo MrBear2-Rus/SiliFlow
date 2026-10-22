@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light dark">
+<title>SiliFlow — 数字电路原理图编辑器</title>
+<style>
+/* OD-LAYOUT-PRIMITIVES v1 — structure only: display, flex/grid, overflow, wrapping, ratio.
+   Put this @layer first; product CSS outside the layer always wins. */
+@layer od-layout {
+  :where(.od-stack,.od-row,.od-row-top,.od-cluster,.od-grid,.od-field,.od-stat,.od-cell,.od-tile) > :where(*) { min-width: 0; }
+  .od-stack   { display: flex; flex-direction: column; gap: var(--od-gap, 8px); }
+  .od-row     { display: flex; align-items: center; gap: var(--od-gap, 8px); }
+  .od-row-top { display: flex; align-items: flex-start; gap: var(--od-gap, 8px); }
+  .od-cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--od-gap, 8px); }
+  .od-fill    { flex: 1 1 0; min-width: 0; }
+  .od-fixed   { flex: none; }
+  .od-grid    { display: grid; gap: var(--od-gap, 12px); grid-template-columns: repeat(var(--od-cols, 3), minmax(0, 1fr)); }
+  .od-stat, .od-field, .od-cell { display: grid; gap: var(--od-gap, 2px); }
+  :where(.od-stat,.od-field,.od-cell) > :where(*) { display: block; }
+  .od-tile { display: grid; grid-template-rows: auto 1fr; }
+  :where(.od-tile) > :where(*) { display: block; }
+  .od-media { display: block; width: 100%; height: auto; aspect-ratio: var(--od-ratio, auto); }
+  .od-media-cover { object-fit: cover; }
+  .od-truncate { display: block; max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+  .od-clamp-2, .od-clamp-3 { display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+  .od-clamp-2 { -webkit-line-clamp: 2; }
+  .od-clamp-3 { -webkit-line-clamp: 3; }
+  .od-lines-2 { min-height: calc(2 * 1.4em); }
+  .od-nowrap  { white-space: nowrap; }
+  .od-keep    { word-break: keep-all; overflow-wrap: anywhere; }
+  .od-screen { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; height: 100%; }
+  .od-scroll { overflow-y: auto; overscroll-behavior: contain; min-height: 0; }
+  .od-rail { display: flex; gap: var(--od-gap, 8px); overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none;
+             padding-inline: var(--od-rail-pad, 16px); scroll-padding-inline: var(--od-rail-pad, 16px); }
+  .od-rail::-webkit-scrollbar { display: none; }
+  :where(.od-rail) > :where(*) { flex: none; scroll-snap-align: start; }
+  :where(.od-rail) > :where(:last-child) { margin-inline-end: var(--od-rail-pad, 16px); }
+  .od-spacer { flex: none; visibility: hidden; pointer-events: none; }
+  .od-touch  { min-width: 44px; min-height: 44px; }
+}
+/* /OD-LAYOUT-PRIMITIVES v1 */
+</style>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ Title bar ============ -->
+  <header class="titlebar">
+    <div class="traffic" aria-hidden="true"><i class="r"></i><i class="y"></i><i class="g"></i></div>
+    <div class="doc">
+      <b>SiliFlow</b>
+      <span class="crumb" id="titleCrumbs">未命名 · main</span>
+      <span class="chip-dirty" id="dirtyChip" hidden>未保存</span>
+    </div>
+    <div class="tb-actions">
+      <button class="tbtn" id="themeBtn" title="切换外观（浅色 / 深色）" aria-label="切换外观">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+      </button>
+      <button class="tbtn" id="helpBtn" title="快捷键一览 (F1)" aria-label="帮助">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.2 9a2.8 2.8 0 0 1 5.5.8c0 1.9-2.7 2.4-2.7 4"/><circle cx="12" cy="17.3" r=".7" fill="currentColor"/></svg>
+      </button>
+      <button class="tbtn" id="panelToggleBtn" title="显示 / 隐藏侧栏" aria-label="切换侧栏">
+        <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============ Menu bar ============ -->
+  <nav class="menubar" id="menubar" role="menubar" aria-label="主菜单"></nav>
+
+  <!-- ============ Toolbar ============ -->
+  <div class="toolbar" id="toolbar"></div>
+
+  <!-- ============ Workspace ============ -->
+  <div class="workspace">
+
+    <!-- toolbox -->
+    <aside class="panel panel-left" id="panelLeft" aria-label="元件库">
+      <div class="panel-head">元件库 <span class="sub" id="toolboxCount"></span></div>
+      <div class="search-wrap">
+        <div class="search">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg>
+          <input id="searchInput" type="text" placeholder="搜索元件…" aria-label="搜索元件" autocomplete="off">
+        </div>
+      </div>
+      <div class="panel-body flush" id="toolboxBody" style="flex:1"></div>
+      <div class="toolbox-hint">单击元件进入放置模式，再点击画布即可放置。</div>
+    </aside>
+
+    <!-- center: tabs + canvas -->
+    <main class="panel panel-center" aria-label="原理图画布">
+      <div class="tabs" id="tabs"></div>
+      <div class="canvas-host" id="canvasHost">
+        <canvas id="cv"></canvas>
+        <div class="canvas-badge" aria-hidden="true">
+          <span class="legend"><i class="dot" style="background:var(--sig0)"></i>0</span>
+          <span class="legend"><i class="dot" style="background:var(--sig1)"></i>1</span>
+          <span class="legend"><i class="dot" style="background:var(--sigx)"></i>X</span>
+          <span class="legend"><i class="dot" style="background:var(--sigz)"></i>Z</span>
+        </div>
+        <div class="canvas-fab">
+          <button id="fabZoomOut" title="缩小" aria-label="缩小"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
+          <button id="fabZoomReset" title="实际大小 100%" aria-label="实际大小" style="font-size:11px;font-variant-numeric:tabular-nums;font-family:var(--mono)">100%</button>
+          <button id="fabZoomIn" title="放大" aria-label="放大"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+          <button id="fabZoomFit" title="适应窗口" aria-label="适应窗口"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V5a1 1 0 0 1 1-1h4M20 9V5a1 1 0 0 0-1-1h-4M4 15v4a1 1 0 0 0 1 1h4M20 15v4a1 1 0 0 1-1 1h-4"/></svg></button>
+        </div>
+      </div>
+    </main>
+
+    <!-- right: properties + hierarchy -->
+    <aside class="panel panel-right" id="panelRight" aria-label="属性与层次">
+      <div class="panel-head">属性 <span class="sub" id="propSub"></span></div>
+      <div class="prop-head" id="propHead"></div>
+      <div class="panel-body flush" id="propBody" style="flex:1 1 auto"></div>
+      <div class="prop-actions" id="propActions"></div>
+      <div class="panel-head" style="border-top:1px solid var(--sep)">层次树 <span class="sub">工程导航</span>
+        <span class="hd-seg" style="margin-left:auto"><button id="treeRefresh" title="刷新层次树">刷新</button></span>
+      </div>
+      <div class="panel-body flush" id="treeBody" style="flex:1 1 auto;max-height:34%"></div>
+    </aside>
+
+    <!-- bottom: wave + console -->
+    <section class="panel panel-bottom" id="panelBottom" aria-label="波形与消息">
+      <div class="bottom-half wave">
+        <div class="bh-head">
+          <span class="bh-t">波形</span><span class="bh-s" id="waveInfo">未加载</span>
+          <span class="spacer"></span>
+          <button class="tbtn" id="waveOpen" style="height:24px">打开 VCD…</button>
+          <button class="tbtn" id="waveClear" style="height:24px">清空</button>
+        </div>
+        <div class="wave-body">
+          <div class="wave-signals" id="waveSignals"><div class="empty-note">（未加载）</div></div>
+          <div class="wave-plot">
+            <div class="wave-grid"></div>
+            <div class="wave-center">
+              <div class="wt">尚未加载波形</div>
+              <div class="ws">使用「打开 VCD…」加载仿真波形（M5 里程碑接入解析与绘制）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bottom-half console">
+        <div class="bh-head">
+          <span class="bh-t">消息</span><span class="bh-s">运行日志</span>
+          <span class="spacer"></span>
+          <button class="tbtn" id="consoleClear" style="height:24px">清空</button>
+        </div>
+        <div class="console-body" id="consoleBody"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ============ Status bar ============ -->
+  <footer class="statusbar">
+    <span class="st" id="stTool">工具：选择</span>
+    <span class="st" id="stZoom">缩放 100%</span>
+    <span class="st" id="stCount">元件 0　导线 0　选中 0</span>
+    <span class="st sim" id="stSim">仿真：未附着图纸</span>
+  </footer>
+</div>
+
+<div class="scrim" id="scrim"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

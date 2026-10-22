@@ -1,30 +1,208 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="源文件">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="core">
+      <UniqueIdentifier>{11111111-0001-4000-8000-000000000001}</UniqueIdentifier>
     </Filter>
-    <Filter Include="头文件">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="canvas">
+      <UniqueIdentifier>{11111111-0002-4000-8000-000000000002}</UniqueIdentifier>
     </Filter>
-    <Filter Include="资源文件">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="panels">
+      <UniqueIdentifier>{11111111-0003-4000-8000-000000000003}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="app">
+      <UniqueIdentifier>{11111111-0004-4000-8000-000000000004}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rd">
+      <UniqueIdentifier>{11111111-0005-4000-8000-000000000005}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core.sim">
+      <UniqueIdentifier>{11111111-0006-4000-8000-000000000006}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ui">
+      <UniqueIdentifier>{11111111-0007-4000-8000-000000000007}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="cMain.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="cMain.cpp" />
+    <ClCompile Include="core\Logic.cpp">
+      <Filter>core</Filter>
     </ClCompile>
-    <ClCompile Include="MainFrame.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="core\Shape.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Component.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Wire.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Circuit.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Library.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Project.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\Command.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\SelfCheck.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\TextConv.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="core\sim\SimTypes.cpp">
+      <Filter>core.sim</Filter>
+    </ClCompile>
+    <ClCompile Include="core\sim\GateEval.cpp">
+      <Filter>core.sim</Filter>
+    </ClCompile>
+    <ClCompile Include="core\sim\SimEngine.cpp">
+      <Filter>core.sim</Filter>
+    </ClCompile>
+    <ClCompile Include="canvas\ToolStateMachine.cpp">
+      <Filter>canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="canvas\CanvasRenderer.cpp">
+      <Filter>canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="canvas\CanvasPanel.cpp">
+      <Filter>canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="canvas\CanvasEventHandler.cpp">
+      <Filter>canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="canvas\CanvasNoteBook.cpp">
+      <Filter>canvas</Filter>
+    </ClCompile>
+    <ClCompile Include="panels\ConsolePanel.cpp">
+      <Filter>panels</Filter>
+    </ClCompile>
+    <ClCompile Include="panels\ToolboxPanel.cpp">
+      <Filter>panels</Filter>
+    </ClCompile>
+    <ClCompile Include="panels\PropertyPanel.cpp">
+      <Filter>panels</Filter>
+    </ClCompile>
+    <ClCompile Include="panels\TreePanel.cpp">
+      <Filter>panels</Filter>
+    </ClCompile>
+    <ClCompile Include="panels\WavePanel.cpp">
+      <Filter>panels</Filter>
+    </ClCompile>
+    <ClCompile Include="app\AppContext.cpp">
+      <Filter>app</Filter>
+    </ClCompile>
+    <ClCompile Include="app\MainMenuBar.cpp">
+      <Filter>app</Filter>
+    </ClCompile>
+    <ClCompile Include="app\MainFrame.cpp">
+      <Filter>app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rd\vcd\vcd.cpp">
+      <Filter>3rd</Filter>
+    </ClCompile>
+    <ClCompile Include="ui\UiKit.cpp">
+      <Filter>ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainFrame.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="core\Types.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Json.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Logic.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Shape.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Component.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Wire.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Circuit.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Library.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Project.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Command.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\SelfCheck.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\TextConv.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="core\sim\SimTypes.h">
+      <Filter>core.sim</Filter>
+    </ClInclude>
+    <ClInclude Include="core\sim\GateEval.h">
+      <Filter>core.sim</Filter>
+    </ClInclude>
+    <ClInclude Include="core\sim\SimEngine.h">
+      <Filter>core.sim</Filter>
+    </ClInclude>
+    <ClInclude Include="core\Services.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\ToolStateMachine.h">
+      <Filter>canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\CanvasRenderer.h">
+      <Filter>canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\CanvasPanel.h">
+      <Filter>canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\CanvasEventHandler.h">
+      <Filter>canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="canvas\CanvasNoteBook.h">
+      <Filter>canvas</Filter>
+    </ClInclude>
+    <ClInclude Include="panels\ConsolePanel.h">
+      <Filter>panels</Filter>
+    </ClInclude>
+    <ClInclude Include="panels\ToolboxPanel.h">
+      <Filter>panels</Filter>
+    </ClInclude>
+    <ClInclude Include="panels\PropertyPanel.h">
+      <Filter>panels</Filter>
+    </ClInclude>
+    <ClInclude Include="panels\TreePanel.h">
+      <Filter>panels</Filter>
+    </ClInclude>
+    <ClInclude Include="panels\WavePanel.h">
+      <Filter>panels</Filter>
+    </ClInclude>
+    <ClInclude Include="app\AppContext.h">
+      <Filter>app</Filter>
+    </ClInclude>
+    <ClInclude Include="app\MainMenuBar.h">
+      <Filter>app</Filter>
+    </ClInclude>
+    <ClInclude Include="app\MainFrame.h">
+      <Filter>app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rd\vcd\vcd.h">
+      <Filter>3rd</Filter>
+    </ClInclude>
+    <ClInclude Include="ui\UiKit.h">
+      <Filter>ui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
